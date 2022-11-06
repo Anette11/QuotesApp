@@ -1,10 +1,15 @@
 package com.example.quotesapp.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.quotesapp.BuildConfig
+import com.example.quotesapp.data.local.QuoteDatabase
 import com.example.quotesapp.data.remote.QuoteApi
+import com.example.quotesapp.data.remote.util.RemoteConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -41,6 +46,7 @@ object QuoteModule {
         okHttpClient: OkHttpClient
     ): Retrofit =
         Retrofit.Builder()
+            .baseUrl(RemoteConstants.baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -50,4 +56,27 @@ object QuoteModule {
     fun provideQuoteApi(
         retrofit: Retrofit
     ): QuoteApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideQuoteDatabase(
+        @ApplicationContext context: Context
+    ): QuoteDatabase =
+        Room.databaseBuilder(
+            context,
+            QuoteDatabase::class.java,
+            QuoteDatabase.name
+        ).build()
+
+    @Provides
+    @Singleton
+    fun provideQuoteDao(
+        quoteDatabase: QuoteDatabase
+    ) = quoteDatabase.quoteDao
+
+    @Provides
+    @Singleton
+    fun provideQuoteRemoteKeysDao(
+        quoteDatabase: QuoteDatabase
+    ) = quoteDatabase.quoteRemoteKeysDao
 }

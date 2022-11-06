@@ -16,6 +16,6 @@ class Converters {
         json: String
     ): List<String> = Gson().fromJson(
         json,
-        object : TypeToken<ArrayList<String>>() {}.type
+        object : TypeToken<List<String>>() {}.type
     )
 }

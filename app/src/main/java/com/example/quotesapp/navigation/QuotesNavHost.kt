@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.quotesapp.ui.components.home.HomeScreen
 
 @Composable
 fun QuotesNavHost(
@@ -17,6 +18,6 @@ fun QuotesNavHost(
     composable(
         route = Screen.HomeScreen.route
     ) {
-
+        HomeScreen()
     }
 }

@@ -21,8 +21,8 @@ import com.example.quotesapp.R
 
 @Composable
 fun QuoteCard(
-    text: String,
-    author: String
+    text: String?,
+    author: String?
 ) = Card(
     modifier = Modifier
         .fillMaxWidth()
@@ -41,14 +41,14 @@ fun QuoteCard(
             contentDescription = "Quote"
         )
         Text(
-            text = text,
+            text = "$text",
             fontFamily = FontFamily(Font(R.font.playfair_display_bold)),
             fontSize = 20.sp
         )
         Divider(modifier = Modifier.padding(vertical = 8.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = author,
+            text = "$author",
             fontFamily = FontFamily(Font(R.font.playfair_display_regular)),
             fontSize = 18.sp,
             textAlign = TextAlign.End
