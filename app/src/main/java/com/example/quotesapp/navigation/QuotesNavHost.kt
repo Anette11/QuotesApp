@@ -6,18 +6,24 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.quotesapp.ui.components.home.HomeScreen
+import com.example.quotesapp.ui.components.search.SearchScreen
 
 @Composable
 fun QuotesNavHost(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Screen.HomeScreen.route
+    startDestination: String = Screen.Quotes.route
 ) = NavHost(
     navController = navController,
     startDestination = startDestination
 ) {
     composable(
-        route = Screen.HomeScreen.route
+        route = Screen.Quotes.route
     ) {
-        HomeScreen()
+        HomeScreen(navController = navController)
+    }
+    composable(
+        route = Screen.Search.route
+    ) {
+        SearchScreen(navController = navController)
     }
 }
