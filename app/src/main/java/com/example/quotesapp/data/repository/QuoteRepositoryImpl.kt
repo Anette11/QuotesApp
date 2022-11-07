@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.quotesapp.R
 import com.example.quotesapp.data.local.QuoteDao
 import com.example.quotesapp.data.local.QuoteDatabase
 import com.example.quotesapp.data.local.QuoteRemoteKeysDao
@@ -16,6 +17,7 @@ import com.example.quotesapp.data.remote.util.NetworkResource
 import com.example.quotesapp.data.remote.util.RemoteConstants
 import com.example.quotesapp.paging.QuotePagingSource
 import com.example.quotesapp.paging.QuoteRemoteMediator
+import com.example.quotesapp.util.ResourceProvider
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -23,7 +25,8 @@ class QuoteRepositoryImpl @Inject constructor(
     private val quoteApi: QuoteApi,
     private val quoteDao: QuoteDao,
     private val quoteRemoteKeysDao: QuoteRemoteKeysDao,
-    private val quoteDatabase: QuoteDatabase
+    private val quoteDatabase: QuoteDatabase,
+    private val resourceProvider: ResourceProvider
 ) : QuoteRepository {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -46,7 +49,7 @@ class QuoteRepositoryImpl @Inject constructor(
             val response = quoteApi.getTags()
             NetworkResource.Success(response)
         } catch (e: Exception) {
-            NetworkResource.Failure("Error occurred")
+            NetworkResource.Failure(resourceProvider.getString(R.string.generic_error_message))
         }
 
     override suspend fun getAuthors(
@@ -60,7 +63,7 @@ class QuoteRepositoryImpl @Inject constructor(
             )
             NetworkResource.Success(response.authors)
         } catch (e: Exception) {
-            NetworkResource.Failure("Error occurred")
+            NetworkResource.Failure(resourceProvider.getString(R.string.generic_error_message))
         }
 
     override fun getQuotesByTags(
@@ -94,6 +97,6 @@ class QuoteRepositoryImpl @Inject constructor(
             val randomQuote = quoteApi.getRandomQuote()
             NetworkResource.Success(randomQuote)
         } catch (e: Exception) {
-            NetworkResource.Failure("Error occurred")
+            NetworkResource.Failure(resourceProvider.getString(R.string.generic_error_message))
         }
 }
