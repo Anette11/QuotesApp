@@ -1,4 +1,4 @@
-package com.example.quotesapp.ui.components.home
+package com.example.quotesapp.ui.components.common
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

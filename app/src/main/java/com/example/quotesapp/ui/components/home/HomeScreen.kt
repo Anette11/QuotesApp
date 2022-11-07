@@ -18,6 +18,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.quotesapp.navigation.Screen
+import com.example.quotesapp.ui.components.common.QuoteCard
 import kotlinx.coroutines.launch
 
 @Composable

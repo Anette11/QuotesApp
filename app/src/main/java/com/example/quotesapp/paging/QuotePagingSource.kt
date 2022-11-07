@@ -7,7 +7,8 @@ import com.example.quotesapp.data.remote.dto.ResultDto
 import com.example.quotesapp.data.remote.util.RemoteConstants
 
 class QuotePagingSource(
-    private val quoteApi: QuoteApi
+    private val quoteApi: QuoteApi,
+    private val tags: String
 ) : PagingSource<Int, ResultDto>() {
 
     override suspend fun load(
@@ -15,7 +16,8 @@ class QuotePagingSource(
     ): LoadResult<Int, ResultDto> =
         try {
             val page = params.key ?: RemoteConstants.initialPage
-            val quotes = quoteApi.getQuotes(
+            val quotes = quoteApi.getQuotesByTags(
+                tags = tags,
                 page = page,
                 limit = RemoteConstants.limit
             ).results

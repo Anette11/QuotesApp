@@ -15,4 +15,11 @@ interface QuoteApi {
 
     @GET("tags")
     suspend fun getTags(): List<Tag>
+
+    @GET("quotes")
+    suspend fun getQuotesByTags(
+        @Query("tags") tags: String,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
+    ): GetQuotesResponse
 }

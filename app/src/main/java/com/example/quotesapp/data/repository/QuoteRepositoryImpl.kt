@@ -9,7 +9,11 @@ import com.example.quotesapp.data.local.QuoteDatabase
 import com.example.quotesapp.data.local.QuoteRemoteKeysDao
 import com.example.quotesapp.data.local.dbo.ResultDbo
 import com.example.quotesapp.data.remote.QuoteApi
+import com.example.quotesapp.data.remote.dto.ResultDto
+import com.example.quotesapp.data.remote.dto.Tag
+import com.example.quotesapp.data.remote.util.NetworkResource
 import com.example.quotesapp.data.remote.util.RemoteConstants
+import com.example.quotesapp.paging.QuotePagingSource
 import com.example.quotesapp.paging.QuoteRemoteMediator
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -33,6 +37,28 @@ class QuoteRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = {
                 quoteDao.getQuotes()
+            }
+        ).flow
+
+    override suspend fun getTags(): NetworkResource<List<Tag>> {
+        return try {
+            val response = quoteApi.getTags()
+            NetworkResource.Success(response)
+        } catch (e: Exception) {
+            NetworkResource.Failure("Error occurred")
+        }
+    }
+
+    override fun getQuotesByTags(
+        tags: String
+    ): Flow<PagingData<ResultDto>> =
+        Pager(
+            config = PagingConfig(pageSize = RemoteConstants.limit),
+            pagingSourceFactory = {
+                QuotePagingSource(
+                    tags = tags,
+                    quoteApi = quoteApi
+                )
             }
         ).flow
 }
