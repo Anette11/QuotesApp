@@ -88,4 +88,12 @@ class QuoteRepositoryImpl @Inject constructor(
                 )
             }
         ).flow
+
+    override suspend fun getRandomQuote(): NetworkResource<ResultDto> =
+        try {
+            val randomQuote = quoteApi.getRandomQuote()
+            NetworkResource.Success(randomQuote)
+        } catch (e: Exception) {
+            NetworkResource.Failure("Error occurred")
+        }
 }

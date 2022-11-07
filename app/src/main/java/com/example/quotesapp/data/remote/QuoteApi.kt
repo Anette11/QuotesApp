@@ -2,6 +2,7 @@ package com.example.quotesapp.data.remote
 
 import com.example.quotesapp.data.remote.dto.GetAuthorsResponse
 import com.example.quotesapp.data.remote.dto.GetQuotesResponse
+import com.example.quotesapp.data.remote.dto.ResultDto
 import com.example.quotesapp.data.remote.dto.Tag
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -22,6 +23,9 @@ interface QuoteApi {
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): GetAuthorsResponse
+
+    @GET("random")
+    suspend fun getRandomQuote(): ResultDto
 
     @GET("quotes")
     suspend fun getQuotesByTags(
