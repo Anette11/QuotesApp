@@ -1,4 +1,4 @@
-package com.example.quotesapp.ui.components.search.by_tag
+package com.example.quotesapp.ui.components.search.by_author
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
@@ -11,15 +11,15 @@ import com.example.quotesapp.ui.components.search.common.SearchScreen
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun SearchByTagScreen(
-    searchByTagViewModel: SearchByTagViewModel = hiltViewModel(),
+fun SearchByAuthorScreen(
+    searchByAuthorViewModel: SearchByAuthorViewModel = hiltViewModel()
 ) {
-    val chips by searchByTagViewModel.chips
+    val chips by searchByAuthorViewModel.chips
     val context = LocalContext.current
-    val quotes = searchByTagViewModel.quotes.collectAsLazyPagingItems()
+    val quotes = searchByAuthorViewModel.quotes.collectAsLazyPagingItems()
 
     LaunchedEffect(true) {
-        searchByTagViewModel.error.collectLatest {
+        searchByAuthorViewModel.error.collectLatest {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
     }
@@ -28,7 +28,7 @@ fun SearchByTagScreen(
         quotes = quotes,
         chips = chips,
         onChipSelected = { index ->
-            searchByTagViewModel.onChipSelected(index = index)
+            searchByAuthorViewModel.onChipSelected(index = index)
         }
     )
 }

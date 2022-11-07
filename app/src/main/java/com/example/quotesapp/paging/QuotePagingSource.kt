@@ -8,7 +8,8 @@ import com.example.quotesapp.data.remote.util.RemoteConstants
 
 class QuotePagingSource(
     private val quoteApi: QuoteApi,
-    private val tags: String
+    private val tags: String? = null,
+    private val author: String? = null
 ) : PagingSource<Int, ResultDto>() {
 
     override suspend fun load(
@@ -16,11 +17,21 @@ class QuotePagingSource(
     ): LoadResult<Int, ResultDto> =
         try {
             val page = params.key ?: RemoteConstants.initialPage
-            val quotes = quoteApi.getQuotesByTags(
-                tags = tags,
-                page = page,
-                limit = RemoteConstants.limit
-            ).results
+            val quotes = if (tags != null) {
+                quoteApi.getQuotesByTags(
+                    tags = tags,
+                    page = page,
+                    limit = RemoteConstants.limit
+                ).results
+            } else if (author != null) {
+                quoteApi.getQuotesByAuthor(
+                    author = author,
+                    page = page,
+                    limit = RemoteConstants.limit
+                ).results
+            } else {
+                emptyList()
+            }
             LoadResult.Page(
                 data = quotes,
                 prevKey = if (page == RemoteConstants.initialPage) null else page.minus(1),

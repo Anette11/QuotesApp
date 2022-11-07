@@ -9,6 +9,7 @@ import com.example.quotesapp.data.local.QuoteDatabase
 import com.example.quotesapp.data.local.QuoteRemoteKeysDao
 import com.example.quotesapp.data.local.dbo.ResultDbo
 import com.example.quotesapp.data.remote.QuoteApi
+import com.example.quotesapp.data.remote.dto.Author
 import com.example.quotesapp.data.remote.dto.ResultDto
 import com.example.quotesapp.data.remote.dto.Tag
 import com.example.quotesapp.data.remote.util.NetworkResource
@@ -40,14 +41,27 @@ class QuoteRepositoryImpl @Inject constructor(
             }
         ).flow
 
-    override suspend fun getTags(): NetworkResource<List<Tag>> {
-        return try {
+    override suspend fun getTags(): NetworkResource<List<Tag>> =
+        try {
             val response = quoteApi.getTags()
             NetworkResource.Success(response)
         } catch (e: Exception) {
             NetworkResource.Failure("Error occurred")
         }
-    }
+
+    override suspend fun getAuthors(
+        page: Int,
+        limit: Int
+    ): NetworkResource<List<Author>> =
+        try {
+            val response = quoteApi.getAuthors(
+                page = page,
+                limit = limit
+            )
+            NetworkResource.Success(response.authors)
+        } catch (e: Exception) {
+            NetworkResource.Failure("Error occurred")
+        }
 
     override fun getQuotesByTags(
         tags: String
@@ -57,6 +71,19 @@ class QuoteRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 QuotePagingSource(
                     tags = tags,
+                    quoteApi = quoteApi
+                )
+            }
+        ).flow
+
+    override fun getQuotesByAuthor(
+        author: String
+    ): Flow<PagingData<ResultDto>> =
+        Pager(
+            config = PagingConfig(pageSize = RemoteConstants.limit),
+            pagingSourceFactory = {
+                QuotePagingSource(
+                    author = author,
                     quoteApi = quoteApi
                 )
             }

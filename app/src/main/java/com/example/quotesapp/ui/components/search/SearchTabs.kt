@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.example.quotesapp.R
+import com.example.quotesapp.ui.components.search.by_author.SearchByAuthorScreen
 import com.example.quotesapp.ui.components.search.by_tag.SearchByTagScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -61,11 +62,8 @@ fun SearchTabs() {
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                if (index == 1) {
-                    SearchByTagScreen()
-                } else {
-                    Text(text = "index: $index")
-                }
+                if (index == 0) SearchByAuthorScreen()
+                if (index == 1) SearchByTagScreen()
             }
         }
     }

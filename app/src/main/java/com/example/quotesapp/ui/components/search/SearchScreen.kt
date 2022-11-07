@@ -10,18 +10,16 @@ import androidx.navigation.NavHostController
 @Composable
 fun SearchScreen(
     navController: NavHostController
+) = Scaffold(
+    topBar = {
+        SearchTopAppBar(
+            onMenuIconClick = { navController.navigateUp() }
+        )
+    }
 ) {
-    Scaffold(
-        topBar = {
-            SearchTopAppBar(
-                onMenuIconClick = { navController.navigateUp() }
-            )
-        }
+    Column(
+        modifier = Modifier.padding(it)
     ) {
-        Column(
-            modifier = Modifier.padding(it)
-        ) {
-            SearchTabs()
-        }
+        SearchTabs()
     }
 }
