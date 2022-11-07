@@ -69,7 +69,9 @@ fun HomeScreen(
                         coroutineScope.launch {
                             scaffoldState.drawerState.close()
                         }
-                        navController.navigate(route = item.route)
+                        navController.navigate(route = item.route) {
+                            launchSingleTop = true
+                        }
                     }
                 )
             },
