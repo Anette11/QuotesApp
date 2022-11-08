@@ -12,11 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.example.quotesapp.R
 import com.example.quotesapp.navigation.Screen
 import com.example.quotesapp.ui.components.common.QuoteCard
 import kotlinx.coroutines.launch
@@ -51,17 +53,19 @@ fun HomeScreen(
             drawerContent = {
                 Drawer(
                     items = listOf(
-                        DrawerItem.Menu(text = "Menu"),
+                        DrawerItem.Menu(
+                            text = stringResource(id = R.string.menu_item_menu)
+                        ),
                         DrawerItem.Item(
-                            text = "Quotes",
+                            text = stringResource(id = R.string.menu_item_quotes),
                             route = Screen.Quotes.route
                         ),
                         DrawerItem.Item(
-                            text = "Search",
+                            text = stringResource(id = R.string.menu_item_search),
                             route = Screen.Search.route
                         ),
                         DrawerItem.Item(
-                            text = "Random",
+                            text = stringResource(id = R.string.menu_item_random),
                             route = Screen.Random.route
                         )
                     ),

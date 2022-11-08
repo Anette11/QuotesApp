@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.quotesapp.R
 import com.example.quotesapp.data.remote.dto.ResultDto
 import com.example.quotesapp.data.remote.util.NetworkResource
 import com.example.quotesapp.data.repository.QuoteRepository
 import com.example.quotesapp.ui.components.search.ChipItem
+import com.example.quotesapp.util.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -19,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchByTagViewModel @Inject constructor(
-    private val repository: QuoteRepository
+    private val repository: QuoteRepository,
+    private val resourceProvider: ResourceProvider
 ) : ViewModel() {
 
     private val _chips = mutableStateOf(emptyList<ChipItem>())
@@ -42,11 +45,9 @@ class SearchByTagViewModel @Inject constructor(
         newChips[index].isSelected = !newChips[index].isSelected
         _chips.value = emptyList()
         _chips.value = newChips
-        val tagsSelected = newChips.filter {
-            it.isSelected
-        }.joinToString("|") {
-            it.text
-        }
+        val tagsSelected = newChips
+            .filter { it.isSelected }
+            .joinToString(resourceProvider.getString(R.string.separator_for_tags)) { it.text }
         if (tagsSelected.isEmpty()) {
             _quotes.value = PagingData.empty()
         } else {

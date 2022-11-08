@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -39,10 +40,8 @@ fun SearchScreen(
             ) {
                 itemsIndexed(items = chips) { index, chip ->
                     Chip(
-                        modifier = Modifier.padding(4.dp),
-                        onClick = {
-                            onChipSelected(index)
-                        },
+                        modifier = Modifier.padding(dimensionResource(id = R.dimen._4dp)),
+                        onClick = { onChipSelected(index) },
                         colors = ChipDefaults.chipColors(
                             backgroundColor = if (chip.isSelected) Color.DarkGray else Color.LightGray,
                             contentColor = Color.White

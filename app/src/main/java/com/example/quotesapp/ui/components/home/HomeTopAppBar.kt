@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.example.quotesapp.R
@@ -19,7 +20,7 @@ fun HomeTopAppBar(
 ) = TopAppBar(
     title = {
         Text(
-            text = "Quotes",
+            text = stringResource(id = R.string.top_app_bar_quotes_name),
             fontFamily = FontFamily(Font(R.font.rubik_regular))
         )
     },
@@ -30,12 +31,12 @@ fun HomeTopAppBar(
             if (isMenuOpened) {
                 Icon(
                     imageVector = Icons.Default.Close,
-                    contentDescription = "Close"
+                    contentDescription = stringResource(id = R.string.icon_close_description)
                 )
             } else {
                 Icon(
                     imageVector = Icons.Default.Menu,
-                    contentDescription = "Menu"
+                    contentDescription = stringResource(id = R.string.icon_menu_description)
                 )
             }
         }

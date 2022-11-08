@@ -7,6 +7,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.example.quotesapp.R
@@ -17,7 +18,7 @@ fun SearchTopAppBar(
 ) = TopAppBar(
     title = {
         Text(
-            text = "Search",
+            text = stringResource(id = R.string.top_app_bar_search_name),
             fontFamily = FontFamily(Font(R.font.rubik_regular))
         )
     },
@@ -27,7 +28,7 @@ fun SearchTopAppBar(
         ) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Back"
+                contentDescription = stringResource(id = R.string.icon_back_description)
             )
         }
     }

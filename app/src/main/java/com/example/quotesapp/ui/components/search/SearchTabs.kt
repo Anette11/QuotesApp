@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.example.quotesapp.R
@@ -23,10 +24,14 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun SearchTabs() {
-    val tabs = listOf("By author", "By tag")
+    val tabs = listOf(
+        stringResource(id = R.string.tab_name_by_author),
+        stringResource(id = R.string.tab_name_by_tag)
+    )
     val pagerState = rememberPagerState()
     val selectedTabIndex = pagerState.currentPage
     val coroutineScope = rememberCoroutineScope()
+
     Column {
         TabRow(
             selectedTabIndex = selectedTabIndex,

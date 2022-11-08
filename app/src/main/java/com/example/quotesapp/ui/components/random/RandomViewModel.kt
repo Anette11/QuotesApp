@@ -36,7 +36,7 @@ class RandomViewModel @Inject constructor(
                 val newRandomQuote = response.data
                 _randomQuote.value = newRandomQuote
             }
-            is NetworkResource.Failure -> _error.emit(response.message ?: "Error")
+            is NetworkResource.Failure -> _error.emit("${response.message}")
         }
         _isLoading.emit(false)
     }

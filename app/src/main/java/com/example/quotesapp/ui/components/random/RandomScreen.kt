@@ -38,9 +38,7 @@ fun RandomScreen(
         topBar = {
             RandomTopAppBar(
                 onMenuIconClick = { navController.navigateUp() },
-                onRefreshClick = {
-                    randomViewModel.getRandomQuote()
-                },
+                onRefreshClick = { randomViewModel.getRandomQuote() },
                 onNotificationClick = {}
             )
         }

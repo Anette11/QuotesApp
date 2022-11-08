@@ -7,7 +7,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.example.quotesapp.R
 
 @Composable
 fun Drawer(
@@ -16,7 +17,7 @@ fun Drawer(
 ) = LazyColumn(
     modifier = Modifier
         .fillMaxSize()
-        .padding(16.dp)
+        .padding(dimensionResource(id = R.dimen._16dp))
 ) {
     itemsIndexed(items = items) { index, item ->
         when (item) {
