@@ -16,7 +16,10 @@
     <string name="icon_back_description">Back</string>
     <string name="icon_refresh_description">Refresh</string>
     <string name="icon_notification_description">Notification</string>
+    <string name="icon_set_time_description">Set time</string>
     <string name="separator_for_tags">|</string>
     <string name="tab_name_by_author">By author</string>
     <string name="tab_name_by_tag">By tag</string>
+    <string name="notification_bottom_sheet_title">Get everyday random quote notification</string>
+    <string name="notification_bottom_sheet_placeholder">Select time</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.example.quotesapp.ui.components.random
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quotesapp.data.remote.dto.ResultDto
@@ -9,6 +11,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,6 +28,15 @@ class RandomViewModel @Inject constructor(
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    private val _selectedTime = mutableStateOf<String?>(null)
+    val selectedTime: State<String?> = _selectedTime
+
+    fun onValueChange(date: Date) {
+        val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val newValue = simpleDateFormat.format(date)
+        _selectedTime.value = newValue
+    }
 
     init {
         getRandomQuote()
