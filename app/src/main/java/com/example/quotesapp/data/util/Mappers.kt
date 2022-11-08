@@ -16,17 +16,3 @@ fun ResultDto.toResultDbo() =
             tags = tags
         )
     }
-
-fun ResultDbo.toResultDto() =
-    with(this) {
-        ResultDto(
-            id = id,
-            author = author,
-            authorSlug = authorSlug,
-            content = content,
-            dateAdded = dateAdded,
-            dateModified = dateModified,
-            length = length,
-            tags = tags
-        )
-    }
