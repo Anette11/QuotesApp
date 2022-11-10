@@ -6,6 +6,7 @@ import com.example.quotesapp.BuildConfig
 import com.example.quotesapp.data.local.QuoteDatabase
 import com.example.quotesapp.data.remote.QuoteApi
 import com.example.quotesapp.data.remote.util.RemoteConstants
+import com.example.quotesapp.util.NotificationChannelCreator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -79,4 +80,10 @@ object QuoteModule {
     fun provideQuoteRemoteKeysDao(
         quoteDatabase: QuoteDatabase
     ) = quoteDatabase.quoteRemoteKeysDao
+
+    @Provides
+    @Singleton
+    fun provideNotificationChannelCreator(
+        @ApplicationContext context: Context
+    ): NotificationChannelCreator = NotificationChannelCreator(context)
 }

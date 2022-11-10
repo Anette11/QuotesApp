@@ -32,10 +32,17 @@ class RandomViewModel @Inject constructor(
     private val _selectedTime = mutableStateOf<String?>(null)
     val selectedTime: State<String?> = _selectedTime
 
+    private var date: Date? = null
+
     fun onValueChange(date: Date) {
+        val dateSelected = date
+        val dateNow = Date()
+        if (dateSelected.before(dateNow)) dateSelected.time =
+            dateSelected.time.plus(24 * 60 * 60 * 1000L)
         val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
         val newValue = simpleDateFormat.format(date)
         _selectedTime.value = newValue
+        this.date = dateSelected
     }
 
     init {
@@ -52,5 +59,12 @@ class RandomViewModel @Inject constructor(
             is NetworkResource.Failure -> _error.emit("${response.message}")
         }
         _isLoading.emit(false)
+    }
+
+    fun findInitialDelay(): Long {
+        val dateSet = date
+        val dateNow = Date()
+        val difference = dateSet?.time?.minus(dateNow.time)
+        return difference ?: 0L
     }
 }

@@ -12,9 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.work.*
 import com.example.quotesapp.ui.components.common.QuoteCard
+import com.example.quotesapp.work.NotificationWorker
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -79,6 +82,23 @@ fun RandomScreen(
                     coroutineScope.launch {
                         sheetState.hide()
                     }
+                    val notificationRequest =
+                        PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS)
+//                        PeriodicWorkRequestBuilder<NotificationWorker>(15, TimeUnit.MINUTES)
+                            .setConstraints(
+                                Constraints.Builder()
+                                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                                    .build()
+                            )
+                            .setInitialDelay(randomViewModel.findInitialDelay(), TimeUnit.SECONDS)
+                            .build()
+                    val workManager = WorkManager.getInstance(context)
+//                    workManager.enqueue(notificationRequest)
+                    workManager.enqueueUniquePeriodicWork(
+                        NotificationWorker.uniqueWorkName,
+                        ExistingPeriodicWorkPolicy.KEEP,
+                        notificationRequest
+                    )
                 }
             )
             if (isLoading) {
