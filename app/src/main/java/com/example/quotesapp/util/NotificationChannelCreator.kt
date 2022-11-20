@@ -11,7 +11,6 @@ class NotificationChannelCreator(
     companion object {
         const val notificationChannelId = "notification_channel_id"
         const val notificationChannelName = "notification_channel_name"
-        const val notificationId = 1
     }
 
     fun createNotificationChannel() {

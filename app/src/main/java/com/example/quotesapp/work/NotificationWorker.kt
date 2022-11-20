@@ -19,6 +19,7 @@ import com.example.quotesapp.util.NotificationChannelCreator
 import com.example.quotesapp.util.ResourceProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlin.random.Random
 
 @HiltWorker
 class NotificationWorker @AssistedInject constructor(
@@ -50,9 +51,9 @@ class NotificationWorker @AssistedInject constructor(
         val notification = NotificationCompat.Builder(
             context, NotificationChannelCreator.notificationChannelId
         )
-            .setContentTitle(resourceProvider.getString(R.string.app_name))
+            .setContentTitle(resourceProvider.getString(R.string.notification_quote_title))
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentText("Creating random quote...")
+            .setContentText(resourceProvider.getString(R.string.notification_quote_description))
             .build()
         setForegroundAsync(
             ForegroundInfo(123, notification)
@@ -75,11 +76,11 @@ class NotificationWorker @AssistedInject constructor(
             context,
             NotificationChannelCreator.notificationChannelId
         )
-            .setContentTitle(resourceProvider.getString(R.string.app_name))
+            .setContentTitle(resourceProvider.getString(R.string.notification_quote_title))
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setStyle(
                 NotificationCompat.BigTextStyle()
-                    .bigText("$content\n$author")
+                    .bigText("$content\n-$author")
             )
             .setContentIntent(pendingIntent)
             .build()
@@ -88,6 +89,6 @@ class NotificationWorker @AssistedInject constructor(
             }
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(NotificationChannelCreator.notificationId, notification)
+        notificationManager.notify(Random.nextInt(), notification)
     }
 }

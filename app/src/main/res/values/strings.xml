@@ -22,4 +22,6 @@
     <string name="tab_name_by_tag">By tag</string>
     <string name="notification_bottom_sheet_title">Get everyday random quote notification</string>
     <string name="notification_bottom_sheet_placeholder">Select time</string>
+    <string name="notification_quote_title">Random quote</string>
+    <string name="notification_quote_description">Creating random quote…</string>
 </resources>
