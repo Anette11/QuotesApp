@@ -83,6 +83,7 @@ class NotificationWorker @AssistedInject constructor(
                     .bigText("$content\n-$author")
             )
             .setContentIntent(pendingIntent)
+            .setGroup(NotificationChannelCreator.notificationChannelGroup)
             .build()
             .apply {
                 flags = Notification.FLAG_AUTO_CANCEL
@@ -90,5 +91,18 @@ class NotificationWorker @AssistedInject constructor(
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(Random.nextInt(), notification)
+        val summaryNotification = NotificationCompat.Builder(
+            context,
+            NotificationChannelCreator.notificationChannelId
+        )
+            .setContentTitle(resourceProvider.getString(R.string.notification_quote_title))
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setGroup(NotificationChannelCreator.notificationChannelGroup)
+            .setGroupSummary(true)
+            .build()
+        notificationManager.notify(
+            NotificationChannelCreator.notificationChannelSummaryId,
+            summaryNotification
+        )
     }
 }
