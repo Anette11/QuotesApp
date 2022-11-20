@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,7 +45,9 @@ class RandomViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             val isChecked = preferencesDataStoreProvider.getIsChecked()
-            _isChecked.value = isChecked
+            withContext(Dispatchers.Main) {
+                _isChecked.value = isChecked
+            }
         }
     }
 
