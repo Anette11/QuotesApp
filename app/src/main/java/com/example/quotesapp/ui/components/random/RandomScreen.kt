@@ -30,7 +30,7 @@ fun RandomScreen(
     val isLoading by randomViewModel.isLoading.collectAsState()
     val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
-    val selectedTime by randomViewModel.selectedTime
+    val isChecked by randomViewModel.isChecked
 
     LaunchedEffect(true) {
         randomViewModel.error.collectLatest {
@@ -69,36 +69,27 @@ fun RandomScreen(
             }
             NotificationModalBottomSheetLayout(
                 sheetState = sheetState,
-                selectedTime = selectedTime,
-                onTimeSelected = { date ->
-                    randomViewModel.onValueChange(date)
-                },
-                onCancelClick = {
-                    coroutineScope.launch {
-                        sheetState.hide()
-                    }
-                },
-                onConfirmClick = {
-                    coroutineScope.launch {
-                        sheetState.hide()
-                    }
-                    val notificationRequest =
-                        PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS)
-//                        PeriodicWorkRequestBuilder<NotificationWorker>(15, TimeUnit.MINUTES)
-                            .setConstraints(
-                                Constraints.Builder()
-                                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                                    .build()
-                            )
-                            .setInitialDelay(randomViewModel.findInitialDelay(), TimeUnit.SECONDS)
-                            .build()
+                isChecked = isChecked,
+                onCheckedChange = {
+                    randomViewModel.onCheckedChange()
                     val workManager = WorkManager.getInstance(context)
-//                    workManager.enqueue(notificationRequest)
-                    workManager.enqueueUniquePeriodicWork(
-                        NotificationWorker.uniqueWorkName,
-                        ExistingPeriodicWorkPolicy.KEEP,
-                        notificationRequest
-                    )
+                    if (isChecked) {
+                        val notificationRequest =
+                            PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS)
+                                .setConstraints(
+                                    Constraints.Builder()
+                                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                                        .build()
+                                )
+                                .build()
+                        workManager.enqueueUniquePeriodicWork(
+                            NotificationWorker.uniqueWorkName,
+                            ExistingPeriodicWorkPolicy.REPLACE,
+                            notificationRequest
+                        )
+                    } else {
+                        workManager.cancelUniqueWork(NotificationWorker.uniqueWorkName)
+                    }
                 }
             )
             if (isLoading) {

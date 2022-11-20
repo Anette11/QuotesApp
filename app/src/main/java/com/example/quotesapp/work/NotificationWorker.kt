@@ -46,7 +46,7 @@ class NotificationWorker @AssistedInject constructor(
         }
     }
 
-    private suspend fun startForegroundService() {
+    private fun startForegroundService() {
         val notification = NotificationCompat.Builder(
             context, NotificationChannelCreator.notificationChannelId
         )
@@ -54,9 +54,6 @@ class NotificationWorker @AssistedInject constructor(
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentText("Creating random quote...")
             .build()
-//        val notificationManager =
-//            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//        notificationManager.notify(NotificationChannelCreator.notificationId, notification)
         setForegroundAsync(
             ForegroundInfo(123, notification)
         )
@@ -71,7 +68,7 @@ class NotificationWorker @AssistedInject constructor(
             context,
             0,
             intent,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             else PendingIntent.FLAG_UPDATE_CURRENT
         )
         val notification = NotificationCompat.Builder(

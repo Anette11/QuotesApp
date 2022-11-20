@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.quotesapp.data.local.PreferencesDataStoreProvider
 import com.example.quotesapp.data.remote.dto.ResultDto
 import com.example.quotesapp.data.remote.util.NetworkResource
 import com.example.quotesapp.data.repository.QuoteRepository
@@ -11,13 +12,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class RandomViewModel @Inject constructor(
-    private val repository: QuoteRepository
+    private val repository: QuoteRepository,
+    private val preferencesDataStoreProvider: PreferencesDataStoreProvider
 ) : ViewModel() {
 
     private val _error = MutableSharedFlow<String>()
@@ -29,24 +29,23 @@ class RandomViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
-    private val _selectedTime = mutableStateOf<String?>(null)
-    val selectedTime: State<String?> = _selectedTime
+    private var _isChecked = mutableStateOf(false)
+    val isChecked: State<Boolean> = _isChecked
 
-    private var date: Date? = null
-
-    fun onValueChange(date: Date) {
-        val dateSelected = date
-        val dateNow = Date()
-        if (dateSelected.before(dateNow)) dateSelected.time =
-            dateSelected.time.plus(24 * 60 * 60 * 1000L)
-        val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val newValue = simpleDateFormat.format(date)
-        _selectedTime.value = newValue
-        this.date = dateSelected
+    fun onCheckedChange() {
+        _isChecked.value = !isChecked.value
+        viewModelScope.launch(Dispatchers.IO) {
+            preferencesDataStoreProvider.saveIsChecked(isChecked.value)
+        }
     }
 
     init {
         getRandomQuote()
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val isChecked = preferencesDataStoreProvider.getIsChecked()
+            _isChecked.value = isChecked
+        }
     }
 
     fun getRandomQuote() = viewModelScope.launch(Dispatchers.IO) {
@@ -59,12 +58,5 @@ class RandomViewModel @Inject constructor(
             is NetworkResource.Failure -> _error.emit("${response.message}")
         }
         _isLoading.emit(false)
-    }
-
-    fun findInitialDelay(): Long {
-        val dateSet = date
-        val dateNow = Date()
-        val difference = dateSet?.time?.minus(dateNow.time)
-        return difference ?: 0L
     }
 }

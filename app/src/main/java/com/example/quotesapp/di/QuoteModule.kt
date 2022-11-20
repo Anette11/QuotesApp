@@ -3,6 +3,7 @@ package com.example.quotesapp.di
 import android.content.Context
 import androidx.room.Room
 import com.example.quotesapp.BuildConfig
+import com.example.quotesapp.data.local.PreferencesDataStoreProvider
 import com.example.quotesapp.data.local.QuoteDatabase
 import com.example.quotesapp.data.remote.QuoteApi
 import com.example.quotesapp.data.remote.util.RemoteConstants
@@ -86,4 +87,10 @@ object QuoteModule {
     fun provideNotificationChannelCreator(
         @ApplicationContext context: Context
     ): NotificationChannelCreator = NotificationChannelCreator(context)
+
+    @Provides
+    @Singleton
+    fun providePreferencesDataStoreProvider(
+        @ApplicationContext context: Context
+    ): PreferencesDataStoreProvider = PreferencesDataStoreProvider(context)
 }
