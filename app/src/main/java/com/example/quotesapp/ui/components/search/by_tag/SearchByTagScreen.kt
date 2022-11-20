@@ -29,6 +29,7 @@ fun SearchByTagScreen(
         chips = chips,
         onChipSelected = { index ->
             searchByTagViewModel.onChipSelected(index = index)
-        }
+        },
+        onClearAll = { searchByTagViewModel.onClearAll() }
     )
 }

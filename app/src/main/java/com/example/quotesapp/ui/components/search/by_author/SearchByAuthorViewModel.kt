@@ -88,4 +88,11 @@ class SearchByAuthorViewModel @Inject constructor(
                 _quotes.value = it
             }
     }
+
+    fun onClearAll() {
+        _quotes.value = PagingData.empty()
+        _chips.value = chips.value.map { chipItem ->
+            chipItem.copy(isSelected = false)
+        }
+    }
 }

@@ -29,6 +29,7 @@ fun SearchByAuthorScreen(
         chips = chips,
         onChipSelected = { index ->
             searchByAuthorViewModel.onChipSelected(index = index)
-        }
+        },
+        onClearAll = { searchByAuthorViewModel.onClearAll() }
     )
 }
