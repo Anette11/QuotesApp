@@ -3,8 +3,7 @@ package com.example.quotesapp.ui.components.home
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Divider
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -19,7 +18,7 @@ fun Drawer(
         .fillMaxSize()
         .padding(dimensionResource(id = R.dimen._16dp))
 ) {
-    itemsIndexed(items = items) { index, item ->
+    items(items = items) { item ->
         when (item) {
             is DrawerItem.Menu -> DrawerMenuItem(item = item)
             is DrawerItem.Item -> {
@@ -27,9 +26,6 @@ fun Drawer(
                     item = item,
                     onItemClick = { onItemClick(item) }
                 )
-                if (index < items.size - 1) {
-                    Divider()
-                }
             }
         }
     }

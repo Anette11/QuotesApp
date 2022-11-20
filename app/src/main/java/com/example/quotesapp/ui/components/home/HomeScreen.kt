@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -57,16 +60,16 @@ fun HomeScreen(
                             text = stringResource(id = R.string.menu_item_menu)
                         ),
                         DrawerItem.Item(
-                            text = stringResource(id = R.string.menu_item_quotes),
-                            route = Screen.Quotes.route
-                        ),
-                        DrawerItem.Item(
                             text = stringResource(id = R.string.menu_item_search),
-                            route = Screen.Search.route
+                            route = Screen.Search.route,
+                            icon = Icons.Default.Search,
+                            contentDescription = stringResource(id = R.string.menu_item_search)
                         ),
                         DrawerItem.Item(
                             text = stringResource(id = R.string.menu_item_random),
-                            route = Screen.Random.route
+                            route = Screen.Random.route,
+                            icon = Icons.Default.Notifications,
+                            contentDescription = stringResource(id = R.string.menu_item_random)
                         )
                     ),
                     onItemClick = { item ->

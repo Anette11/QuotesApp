@@ -7,7 +7,7 @@
     <string name="menu_item_menu">Menu</string>
     <string name="menu_item_quotes">Quotes</string>
     <string name="menu_item_search">Search</string>
-    <string name="menu_item_random">Random</string>
+    <string name="menu_item_random">Random / Notification</string>
     <string name="top_app_bar_quotes_name">Quotes</string>
     <string name="top_app_bar_search_name">Search</string>
     <string name="top_app_bar_random_name">Random</string>
