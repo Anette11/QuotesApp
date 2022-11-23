@@ -9,7 +9,7 @@ import com.example.quotesapp.data.remote.util.RemoteConstants
 class QuotePagingSource(
     private val quoteApi: QuoteApi,
     private val tags: String? = null,
-    private val author: String? = null
+    private val authors: String? = null
 ) : PagingSource<Int, ResultDto>() {
 
     override suspend fun load(
@@ -23,9 +23,9 @@ class QuotePagingSource(
                     page = page,
                     limit = RemoteConstants.limit
                 ).results
-            } else if (author != null) {
+            } else if (authors != null) {
                 quoteApi.getQuotesByAuthor(
-                    author = author,
+                    author = authors,
                     page = page,
                     limit = RemoteConstants.limit
                 ).results

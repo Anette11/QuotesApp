@@ -36,6 +36,7 @@ class SearchByTagViewModel @Inject constructor(
 
     init {
         getTags()
+        getQuotesByTags(null)
     }
 
     fun onChipSelected(
@@ -74,7 +75,7 @@ class SearchByTagViewModel @Inject constructor(
     }
 
     private fun getQuotesByTags(
-        tags: String
+        tags: String?
     ) = viewModelScope.launch(Dispatchers.IO) {
         repository.getQuotesByTags(tags)
             .cachedIn(viewModelScope)

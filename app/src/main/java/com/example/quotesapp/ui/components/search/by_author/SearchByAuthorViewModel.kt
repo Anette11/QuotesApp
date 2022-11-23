@@ -37,6 +37,7 @@ class SearchByAuthorViewModel @Inject constructor(
 
     init {
         getAuthors()
+        getQuotesByAuthors(null)
     }
 
     fun onChipSelected(
@@ -80,9 +81,9 @@ class SearchByAuthorViewModel @Inject constructor(
     }
 
     private fun getQuotesByAuthors(
-        authors: String
+        authors: String?
     ) = viewModelScope.launch(Dispatchers.IO) {
-        repository.getQuotesByAuthor(authors)
+        repository.getQuotesByAuthors(authors)
             .cachedIn(viewModelScope)
             .collect {
                 _quotes.value = it

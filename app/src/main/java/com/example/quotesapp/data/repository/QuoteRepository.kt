@@ -19,9 +19,9 @@ interface QuoteRepository {
         limit: Int
     ): NetworkResource<List<Author>>
 
-    fun getQuotesByTags(tags: String): Flow<PagingData<ResultDto>>
+    fun getQuotesByTags(tags: String?): Flow<PagingData<ResultDto>>
 
-    fun getQuotesByAuthor(author: String): Flow<PagingData<ResultDto>>
+    fun getQuotesByAuthors(authors: String?): Flow<PagingData<ResultDto>>
 
     suspend fun getRandomQuote(): NetworkResource<ResultDto>
 

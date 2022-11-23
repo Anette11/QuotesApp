@@ -36,6 +36,7 @@ fun HomeScreen(
     val showHomeDialog by homeViewModel.showHomeDialog
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

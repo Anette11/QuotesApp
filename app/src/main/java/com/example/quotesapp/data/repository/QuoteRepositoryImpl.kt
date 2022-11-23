@@ -67,7 +67,7 @@ class QuoteRepositoryImpl @Inject constructor(
         }
 
     override fun getQuotesByTags(
-        tags: String
+        tags: String?
     ): Flow<PagingData<ResultDto>> =
         Pager(
             config = PagingConfig(pageSize = RemoteConstants.limit),
@@ -79,14 +79,14 @@ class QuoteRepositoryImpl @Inject constructor(
             }
         ).flow
 
-    override fun getQuotesByAuthor(
-        author: String
+    override fun getQuotesByAuthors(
+        authors: String?
     ): Flow<PagingData<ResultDto>> =
         Pager(
             config = PagingConfig(pageSize = RemoteConstants.limit),
             pagingSourceFactory = {
                 QuotePagingSource(
-                    author = author,
+                    authors = authors,
                     quoteApi = quoteApi
                 )
             }
