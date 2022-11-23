@@ -15,6 +15,7 @@
     <string name="icon_menu_description">Menu</string>
     <string name="icon_back_description">Back</string>
     <string name="icon_refresh_description">Refresh</string>
+    <string name="icon_delete_description">Delete</string>
     <string name="icon_notification_description">Notification</string>
     <string name="icon_set_time_description">Set time</string>
     <string name="separator_for_tags">|</string>
@@ -24,4 +25,8 @@
     <string name="notification_bottom_sheet_placeholder">Select time</string>
     <string name="notification_quote_title">Random quote</string>
     <string name="notification_quote_description">Creating random quote…</string>
+    <string name="home_dialog_title">Clear cache</string>
+    <string name="home_dialog_description">Cache will be cleared from database</string>
+    <string name="home_dialog_cancel_button">Cancel</string>
+    <string name="home_dialog_confirm_button">Clear</string>
 </resources>

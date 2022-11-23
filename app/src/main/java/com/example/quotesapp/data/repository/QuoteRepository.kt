@@ -24,4 +24,6 @@ interface QuoteRepository {
     fun getQuotesByAuthor(author: String): Flow<PagingData<ResultDto>>
 
     suspend fun getRandomQuote(): NetworkResource<ResultDto>
+
+    suspend fun deleteAllQuotes()
 }

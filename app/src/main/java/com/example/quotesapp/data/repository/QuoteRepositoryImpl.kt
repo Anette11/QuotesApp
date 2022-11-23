@@ -99,4 +99,7 @@ class QuoteRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             NetworkResource.Failure(resourceProvider.getString(R.string.generic_error_message))
         }
+
+    override suspend fun deleteAllQuotes() =
+        quoteDao.deleteAllQuotes()
 }
