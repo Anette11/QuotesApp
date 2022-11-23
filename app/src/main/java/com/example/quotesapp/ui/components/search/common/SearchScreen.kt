@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.paging.LoadState
@@ -29,62 +30,60 @@ fun SearchScreen(
     chips: List<ChipItem>,
     onChipSelected: (Int) -> Unit,
     onClearAll: () -> Unit
+) = Box(
+    modifier = Modifier.fillMaxSize(),
+    contentAlignment = Alignment.Center
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+    Column(modifier = Modifier.fillMaxSize()) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(
+                onClick = onClearAll
             ) {
-                IconButton(
-                    onClick = onClearAll
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_clear_all),
-                        contentDescription = "Clear all",
-                        tint = if (chips.find { chipItem ->
-                                chipItem.isSelected
-                            }?.isSelected == true) Color.DarkGray else Color.LightGray
-                    )
-                }
-                LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    state = rememberLazyListState()
-                ) {
-                    itemsIndexed(items = chips) { index, chip ->
-                        Chip(
-                            modifier = Modifier.padding(dimensionResource(id = R.dimen._4dp)),
-                            onClick = { onChipSelected(index) },
-                            colors = ChipDefaults.chipColors(
-                                backgroundColor = if (chip.isSelected) Color.DarkGray else Color.LightGray,
-                                contentColor = Color.White
-                            )
-                        ) {
-                            Text(
-                                text = chip.text,
-                                fontFamily = FontFamily(Font(R.font.rubik_regular))
-                            )
-                        }
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_clear_all),
+                    contentDescription = stringResource(id = R.string.icon_clear_all_description),
+                    tint = if (chips.find { chipItem ->
+                            chipItem.isSelected
+                        }?.isSelected == true) Color.DarkGray else Color.LightGray
+                )
+            }
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                state = rememberLazyListState()
+            ) {
+                itemsIndexed(items = chips) { index, chip ->
+                    Chip(
+                        modifier = Modifier.padding(dimensionResource(id = R.dimen._4dp)),
+                        onClick = { onChipSelected(index) },
+                        colors = ChipDefaults.chipColors(
+                            backgroundColor = if (chip.isSelected) Color.DarkGray else Color.LightGray,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(
+                            text = chip.text,
+                            fontFamily = FontFamily(Font(R.font.rubik_regular))
+                        )
                     }
                 }
             }
-            LazyColumn {
-                items(items = quotes) { quote ->
-                    QuoteCard(
-                        text = quote?.content,
-                        author = quote?.author
-                    )
-                }
+        }
+        LazyColumn {
+            items(items = quotes) { quote ->
+                QuoteCard(
+                    text = quote?.content,
+                    author = quote?.author
+                )
             }
         }
-        if (
-            quotes.loadState.prepend is LoadState.Loading ||
-            quotes.loadState.refresh is LoadState.Loading ||
-            quotes.loadState.append is LoadState.Loading
-        ) {
-            CircularProgressIndicator()
-        }
+    }
+    if (
+        quotes.loadState.prepend is LoadState.Loading ||
+        quotes.loadState.refresh is LoadState.Loading ||
+        quotes.loadState.append is LoadState.Loading
+    ) {
+        CircularProgressIndicator()
     }
 }

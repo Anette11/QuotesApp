@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SearchByTagScreen(
-    searchByTagViewModel: SearchByTagViewModel = hiltViewModel(),
+    searchByTagViewModel: SearchByTagViewModel = hiltViewModel()
 ) {
     val chips by searchByTagViewModel.chips
     val context = LocalContext.current
