@@ -72,44 +72,41 @@ class QuoteRemoteMediator(
                 endOfPaginationReached = response.isEmpty() || response.size < RemoteConstants.limit
             )
         } catch (e: Exception) {
-            if (BuildConfig.DEBUG) {
-                e.printStackTrace()
-            }
+            if (BuildConfig.DEBUG) e.printStackTrace()
             MediatorResult.Error(e)
         }
     }
 
     private fun getRemoteKeysClosestToCurrentPosition(
         state: PagingState<Int, ResultDbo>
-    ): QuoteRemoteKeys? {
-        return state.anchorPosition?.let { position ->
+    ): QuoteRemoteKeys? =
+        state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
                 runBlocking(Dispatchers.IO) {
                     quoteRemoteKeysDao.getRemoteKey(id = id)
                 }
             }
         }
-    }
 
     private fun getRemoteKeyForFirstQuote(
         state: PagingState<Int, ResultDbo>
-    ): QuoteRemoteKeys? {
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { resultDbo ->
-                runBlocking(Dispatchers.IO) {
-                    quoteRemoteKeysDao.getRemoteKey(id = resultDbo.id)
-                }
+    ): QuoteRemoteKeys? =
+        state.pages.firstOrNull { page ->
+            page.data.isNotEmpty()
+        }?.data?.firstOrNull()?.let { resultDbo ->
+            runBlocking(Dispatchers.IO) {
+                quoteRemoteKeysDao.getRemoteKey(id = resultDbo.id)
             }
-    }
+        }
 
     private fun getRemoteKeyForLastQuote(
         state: PagingState<Int, ResultDbo>
-    ): QuoteRemoteKeys? {
-        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { resultDbo ->
-                runBlocking(Dispatchers.IO) {
-                    quoteRemoteKeysDao.getRemoteKey(id = resultDbo.id)
-                }
+    ): QuoteRemoteKeys? =
+        state.pages.lastOrNull { page ->
+            page.data.isNotEmpty()
+        }?.data?.lastOrNull()?.let { resultDbo ->
+            runBlocking(Dispatchers.IO) {
+                quoteRemoteKeysDao.getRemoteKey(id = resultDbo.id)
             }
-    }
+        }
 }
